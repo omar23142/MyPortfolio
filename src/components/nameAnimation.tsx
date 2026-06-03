@@ -178,28 +178,28 @@ export default function OmarAnimation() {
             )}
           </span>
         ))}
+
+        <div ref={particlesRef} style={styles.particlesWrapper}>
+          {particlePositions.map((p, i) => (
+            <span
+              key={i}
+              data-particle
+              style={{
+                position: "absolute",
+                left: `calc(50% + ${p.x}px)`,
+                top: `calc(50% + ${p.y}px)`,
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                borderRadius: "50%",
+                backgroundColor: "rgba(59,130,246,0.5)",
+                pointerEvents: "none",
+              }}
+            />
+          ))}
+        </div>
       </h1>
       <Typewriter />
-      <h1 className="z-12">projects</h1>
-        <Slider />
-      <div ref={particlesRef} style={styles.particlesWrapper}>
-        {particlePositions.map((p, i) => (
-          <span
-            key={i}
-            data-particle
-            style={{
-              position: "absolute",
-              left: `calc(50% + ${p.x}px)`,
-              top: `calc(50% + ${p.y}px)`,
-              width: `${p.size}px`,
-              height: `${p.size}px`,
-              borderRadius: "50%",
-              backgroundColor: "rgba(59,130,246,0.5)",
-              pointerEvents: "none",
-            }}
-          />
-        ))}
-      </div>
+      <Slider />
     </main>
   );
 }
