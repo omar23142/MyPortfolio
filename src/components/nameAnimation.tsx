@@ -1,16 +1,57 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Slider from "./slider/page";
 
 const name = "OMAR ALMUGAWISH";
 
-const particlePositions = Array.from({ length: 20 }, () => ({
+const particlePositions = Array.from({ length: 25 }, () => ({
   x: (Math.random() - 0.5) * 400,
   y: (Math.random() - 0.5) * 300,
-  size: 3 + Math.random() * 4,
+  size: 6 + Math.random() * 6,
 }));
+
+const rollingOStyle: React.CSSProperties = {
+  position: "absolute",
+  left: 0,
+  top: 0,
+  zIndex: 2,
+  display: "inline-block",
+  willChange: "transform, opacity",
+};
+
+const smileStyle: React.CSSProperties = {
+  display: "inline-block",
+  position: "relative",
+  width: "0.72em",
+  height: "0.72em",
+  color: "#3b82f6",
+  border: "0.08em solid currentColor",
+  borderRadius: "50%",
+  verticalAlign: "middle",
+};
+
+const eyeStyle: React.CSSProperties = {
+  position: "absolute",
+  width: "0.08em",
+  height: "0.08em",
+  borderRadius: "50%",
+  backgroundColor: "currentColor",
+};
+
+const eyeLeftStyle: React.CSSProperties = { ...eyeStyle, left: "30%", top: "32%" };
+const eyeRightStyle: React.CSSProperties = { ...eyeStyle, right: "30%", top: "32%" };
+
+const mouthStyle: React.CSSProperties = {
+  position: "absolute",
+  left: "27%",
+  bottom: "26%",
+  width: "46%",
+  height: "24%",
+  borderBottom: "0.07em solid currentColor",
+  borderRadius: "0 0 999px 999px",
+};
 
 export default function OmarAnimation() {
   const containerRef = useRef<HTMLHeadingElement>(null);
@@ -150,13 +191,17 @@ export default function OmarAnimation() {
   }, []);
 
   return (
-    <main style={styles.body} className="bg-white">
-      <h1 ref={containerRef} style={styles.name} aria-label={name}>
-        <span ref={rollingORef} aria-hidden="true" style={styles.rollingO}>
-          <span style={styles.rollingSmile}>
-            <span style={styles.eyeLeft} />
-            <span style={styles.eyeRight} />
-            <span style={styles.mouth} />
+    <main className="min-h-screen overflow-x-hidden overflow-y-visible bg-white text-[#0f0f0f] flex flex-col items-center justify-center relative">
+      <h1
+        ref={containerRef}
+        className="relative flex items-center justify-center flex-wrap m-0 mt-0 text-5xl font-extrabold leading-none tracking-wider opacity-0"
+        aria-label={name}
+      >
+        <span ref={rollingORef} aria-hidden="true" style={rollingOStyle}>
+          <span style={smileStyle}>
+            <span style={eyeLeftStyle} />
+            <span style={eyeRightStyle} />
+            <span style={mouthStyle} />
           </span>
         </span>
 
@@ -165,10 +210,11 @@ export default function OmarAnimation() {
             aria-hidden="true"
             data-letter
             key={`${letter}-${index}`}
-            style={letter === " " ? styles.space : styles.letter}
+            className={letter === " " ? "inline-block w-[0.35em]" : "relative inline-block"}
+            style={letter !== " " ? { willChange: "transform, opacity" } : undefined}
           >
             {index === 0 ? (
-              <span style={styles.firstO}>
+              <span className="relative inline-block text-[#0f0f0f]">
                 O
               </span>
             ) : letter === " " ? (
@@ -179,7 +225,7 @@ export default function OmarAnimation() {
           </span>
         ))}
 
-        <div ref={particlesRef} style={styles.particlesWrapper}>
+        <div ref={particlesRef} className="absolute inset-0 pointer-events-none overflow-hidden">
           {particlePositions.map((p, i) => (
             <span
               key={i}
@@ -191,7 +237,7 @@ export default function OmarAnimation() {
                 width: `${p.size}px`,
                 height: `${p.size}px`,
                 borderRadius: "50%",
-                backgroundColor: "rgba(59,130,246,0.5)",
+                backgroundColor: "rgba(30, 64, 175, 0.85)",
                 pointerEvents: "none",
               }}
             />
@@ -261,122 +307,12 @@ function Typewriter() {
   }, []);
 
   return (
-    <div style={styles.typewriter}>
+    <div className="mt-7 h-8 text-xl text-blue-500 tracking-wider font-medium" style={{ fontFamily: "'Fira Code', 'Courier New', monospace" }}>
       <span>{text}</span>
-      <span style={{ ...styles.cursor, opacity: cursorVisible ? 1 : 0 }} />
+      <span
+        className="inline-block w-[2px] h-[1.3em] bg-blue-500 ml-[3px] align-text-bottom rounded-sm"
+        style={{ opacity: cursorVisible ? 1 : 0 }}
+      />
     </div>
   );
 }
-
-const styles: { [key: string]: CSSProperties } = {
-  body: {
-    minHeight: "100vh",
-    margin: 0,
-    overflowX: "hidden",
-    overflowY: "visible",
-    backgroundColor: "#ffffff",
-    color: "#0f0f0f",
-    fontFamily: "'Poppins', sans-serif",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-  },
-  name: {
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    margin: 0,
-    fontSize: "3rem",
-    fontWeight: 800,
-    lineHeight: 0.95,
-    letterSpacing: "2px",
-    opacity: 0,
-  },
-  letter: {
-    position: "relative",
-    display: "inline-block",
-    willChange: "transform, opacity",
-  },
-  space: {
-    display: "inline-block",
-    width: "0.35em",
-  },
-  rollingO: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    zIndex: 2,
-    display: "inline-block",
-    willChange: "transform, opacity",
-  },
-  firstO: {
-    position: "relative",
-    display: "inline-block",
-    color: "#0f0f0f",
-  },
-  rollingSmile: {
-    display: "inline-block",
-    position: "relative",
-    width: "0.72em",
-    height: "0.72em",
-    color: "#3b82f6",
-    border: "0.08em solid currentColor",
-    borderRadius: "50%",
-    verticalAlign: "middle",
-  },
-  eyeLeft: {
-    position: "absolute",
-    left: "30%",
-    top: "32%",
-    width: "0.08em",
-    height: "0.08em",
-    borderRadius: "50%",
-    backgroundColor: "currentColor",
-  },
-  eyeRight: {
-    position: "absolute",
-    right: "30%",
-    top: "32%",
-    width: "0.08em",
-    height: "0.08em",
-    borderRadius: "50%",
-    backgroundColor: "currentColor",
-  },
-  mouth: {
-    position: "absolute",
-    left: "27%",
-    bottom: "26%",
-    width: "46%",
-    height: "24%",
-    borderBottom: "0.07em solid currentColor",
-    borderRadius: "0 0 999px 999px",
-  },
-  typewriter: {
-    marginTop: "1.8rem",
-    height: "2rem",
-    fontSize: "1.25rem",
-    fontFamily: "'Fira Code', 'Courier New', monospace",
-    color: "#3b82f6",
-    letterSpacing: "1px",
-    fontWeight: 500,
-  },
-  cursor: {
-    display: "inline-block",
-    width: "2px",
-    height: "1.3em",
-    backgroundColor: "#3b82f6",
-    marginLeft: "3px",
-    verticalAlign: "text-bottom",
-    borderRadius: "1px",
-  },
-  particlesWrapper: {
-    position: "absolute",
-    inset: 0,
-    pointerEvents: "none",
-    overflow: "hidden",
-  },
-};

@@ -57,7 +57,7 @@
 
 .video-slider-wrapper .card-info {
   width: 100%;
-  padding: 0.5em 0.75em;
+  /* padding: 0.1em 0.75em; */
   display: flex;
   align-items: center;
   background-color: #000;

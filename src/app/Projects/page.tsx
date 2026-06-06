@@ -10,13 +10,9 @@ import {
   FaGamepad,
   FaExternalLinkAlt,
   FaTimes,
-  FaFire,
-  FaArrowRight,
-  FaJava,
 } from "react-icons/fa";
 import { SiTypescript, SiJavascript, SiHtml5 } from "react-icons/si";
 
-// Structure of our rich project metadata
 interface Project {
   title: string;
   name: string;
@@ -28,28 +24,27 @@ interface Project {
   keyChallenges: string[];
   language: string;
   html_url: string;
+  live_url?: string;
   tags: string[];
   featured?: boolean;
 }
 
-// Complete, curated repository list combining the live GitHub feed, course projects, and custom highlights
 const projectsData: Project[] = [
   {
     title: "Bulls & Cows Full-Stack Game",
     name: "Bulls-and-Cows-game-cs50-finall-project-",
     category: "game",
     categoryLabel: "Featured (CS50)",
-    description: "An interactive full-stack implementation of the classic Bulls & Cows code-breaking game. Built with HTML, CSS, JavaScript, and a Flask (Python) backend.",
-    longDescription: "A fully immersive, full-stack mind-challenge that puts players' code-breaking abilities to the test. Features a responsive frontend using vanilla HTML5, CSS3 transitions, and JavaScript, backed by a Flask (Python) server handling game validation, scores, and statistics.",
+    description: "A full-stack Bulls & Cows code-breaking game with Flask backend, WebSocket multiplayer, and a help system that reveals or removes digits.",
+    longDescription: "A Bulls & Cows game built with Flask (Python) on the back end and vanilla HTML/CSS/JS on the front. Supports both local play and multiplayer via WebSocket. Includes a hint system that can remove wrong digits or reveal correct ones. The Flask server handles game logic, score tracking, and leaderboard persistence.",
     architecture: [
-      "Flask (Python) REST backend managing secure scoreboards and leaderboard logic.",
-      "Modular client-side state machine handling immediate game states and input validation.",
-      "Custom CSS3 transition framework driving dynamic game board movements.",
-      "Audio API integration providing interactive sound feedback loops."
+      "Flask REST API for game validation, scoring, and leaderboard storage.",
+      "WebSocket-based multiplayer matching and real-time turn sync.",
+      "Vanilla JavaScript frontend with CSS3 transitions for the game board."
     ],
     keyChallenges: [
-      "Integrating a seamless asynchronous fetch structure between the vanilla JS front-end and Flask API server.",
-      "Optimizing Python game scoring metrics to handle database leaderboards cleanly under rapid query requests."
+      "Syncing game state between two WebSocket clients reliably during multiplayer matches.",
+      "Designing the hint system to intelligently pick which digit to reveal or remove without breaking the game logic."
     ],
     language: "Python / Flask / JS",
     html_url: "https://github.com/omar23142/Bulls-and-Cows-game-cs50-finall-project-",
@@ -57,20 +52,20 @@ const projectsData: Project[] = [
     featured: true,
   },
   {
-    title: "Cloud Next.js Application",
+    title: "Cloud Next.js Dashboard",
     name: "cloud-Nextjs",
     category: "web",
-    categoryLabel: "Full-Stack & Web",
-    description: "A premium cloud resource monitoring dashboard built using Next.js and TypeScript, designed to show system statuses.",
-    longDescription: "A fully polished glassmorphic interface mocking a modern Cloud Service Provider dashboard. It presents interactive server status matrices, metric charts, storage thresholds, and deployment timelines in an outstanding, accessible user interface.",
+    categoryLabel: "Frontend & Web",
+    description: "A cloud monitoring dashboard built with Next.js and TypeScript.",
+    longDescription: "A dark-themed cloud provider dashboard UI built with Next.js App Router and Tailwind CSS. Displays live server status cards, CPU and RAM usage charts, storage thresholds, and deployment history. Uses glassmorphism styling for a modern look.",
     architecture: [
-      "Next.js App Router for optimized directory structures, layout definitions, and static assets.",
-      "TypeScript types defining strict interface models for network payloads and status thresholds.",
-      "Vibrant dark-themed visual grids leveraging tailwind CSS's utility layer."
+      "Next.js App Router for layout definitions and route organization.",
+      "TypeScript interfaces defining data models for servers, metrics, and status payloads.",
+      "Tailwind CSS utility classes for the dark theme and glassmorphic card styles."
     ],
     keyChallenges: [
-      "Implementing high-performance glassmorphic cards with complex background filters without causing repainting lags in older browsers.",
-      "Designing complex state grids mapping CPU/RAM usage levels dynamically."
+      "Keeping glassmorphic card backgrounds performant across browsers without repaint lag.",
+      "Designing a responsive status grid that works across desktop and mobile layouts."
     ],
     language: "TypeScript",
     html_url: "https://github.com/omar23142/cloud-Nextjs",
@@ -82,16 +77,16 @@ const projectsData: Project[] = [
     name: "E-joy",
     category: "web",
     categoryLabel: "Full-Stack & Web",
-    description: "A web application clone of the E-joy language learning browser extension, built for interactive language acquisition.",
-    longDescription: "A specialized front-end application replicating core language learning extension workflows. It translates terms interactively, parses vocabulary from dual-subtitle video players, and structures vocabulary lists using advanced context cue cards.",
+    description: "A clone of the E-joy language learning browser extension for interactive vocabulary building from video subtitles.",
+    longDescription: "A web app that mimics the E-joy language learning extension. Lets users watch videos with dual subtitles, click words to see translations, and save vocabulary to a personal bank. Built with React and TypeScript.",
     architecture: [
-      "Dual subtitle text matching engines syncing video timestamp milestones with textual lines.",
-      "Interactive popup dictionaries fetching vocabulary definitions and phonetic transcriptions.",
-      "Custom vocabulary bank systems persisting learned cards inside browser databases."
+      "Dual-subtitle parser that syncs translated text with video timestamps.",
+      "Click-to-translate popup that fetches definitions and phonetic transcriptions.",
+      "Local vocabulary bank stored in the browser for review and practice."
     ],
     keyChallenges: [
-      "Devising pixel-perfect overlay widgets that align neatly with live media players without interfering with default video controls.",
-      "Implementing instant vocabulary keyword mapping algorithms that highlight words in subtitles in real time."
+      "Aligning subtitle overlays precisely with the video player without breaking native controls.",
+      "Highlighting translated words in subtitles in real time as the video plays."
     ],
     language: "TypeScript",
     html_url: "https://github.com/omar23142/E-joy",
@@ -99,24 +94,25 @@ const projectsData: Project[] = [
     featured: true,
   },
   {
-    title: "Online E-Commerce Store",
+    title: "E-Commerce REST API",
     name: "e-commerce",
     category: "web",
-    categoryLabel: "Full-Stack & Web",
-    description: "A gorgeous modern web storefront showcasing category navigation, product filters, and persistent carts.",
-    longDescription: "A full-featured online e-commerce storefront prototype. It implements intuitive multi-category product filtering, dynamic cart calculations, elegant hover zoom micro-animations, and full mock checkouts, emphasizing fluid UX transitions.",
+    categoryLabel: "Backend API & Web",
+    description: "A NestJS backend API with JWT auth, RBAC, product management, reviews, image uploads, and transactional emails.",
+    longDescription: "A fully typed REST API built with NestJS, TypeORM, and PostgreSQL. Handles user authentication with JWT tokens, role-based access control (admin vs normal user), product CRUD with advanced filtering (search, price range, pagination), review system, Cloudinary image uploads, rate limiting, and Swagger documentation. Deployed on Vercel.",
     architecture: [
-      "Modular components for grids, filters, navigation bars, and responsive slide-in sidebars.",
-      "Local state synchronizer persisting customer selections across browser reloads.",
-      "Dynamic catalog search matching title keywords and price boundaries seamlessly."
+      "Modular NestJS structure with separate Users, Products, and Reviews feature modules.",
+      "TypeORM entities with PostgreSQL migrations for schema versioning.",
+      "Custom ApiFeature utility class for advanced product querying with TypeORM QueryBuilder."
     ],
     keyChallenges: [
-      "Synchronizing global cart status elements smoothly across independent UI components without causing redundant tree renders.",
-      "Refining image placement grids to support standard adaptive layout formats on all mobile devices."
+      "Handling circular dependencies between Users and Reviews modules with NestJS forwardRef.",
+      "Invalidating JWT tokens issued before a password change by tracking token timestamps in the database."
     ],
     language: "TypeScript",
     html_url: "https://github.com/omar23142/e-commerce",
-    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Shopping Cart", "Product Filters", "State Syncing"],
+    live_url: "https://e-commerce-zeta-henna-46.vercel.app",
+    tags: ["NestJS", "TypeScript", "PostgreSQL", "TypeORM", "JWT Auth", "Cloudinary", "Swagger"],
     featured: true,
   },
   {
@@ -124,76 +120,78 @@ const projectsData: Project[] = [
     name: "natours",
     category: "web",
     categoryLabel: "Full-Stack & Web",
-    description: "A premium, fully fledged full-stack tour booking application featuring a robust secure REST API and server-side UI templates.",
-    longDescription: "Natours is a complete full-stack web application. It integrates a powerful Node.js/Express API server with a server-rendered user interface powered by Pug templates, utilizing Mapbox maps, secure JWT logins, email booking triggers, and Stripe payment pathways.",
+    description: "A full-stack tour booking app with Node.js/Express API, Pug templates, JWT auth, Mapbox maps, and Stripe payments.",
+    longDescription: "A complete tour booking platform built with Node.js and Express. Server-rendered Pug templates on the frontend with a REST API backend. Features JWT authentication, Mapbox interactive maps, email notifications on booking, and Stripe payment integration. MongoDB with Mongoose for data persistence.",
     architecture: [
-      "Node.js & Express framework driving both backend REST endpoints and Pug template rendering controllers.",
-      "Mongoose database schemas modeling user levels, multi-guide tour booking relationships, and review aggregates.",
-      "Security policies protecting user routes (rate limiting, data sanitization, cookie encryption)."
+      "Express REST API combined with server-rendered Pug templates for the UI layer.",
+      "Mongoose schemas for users, tours, bookings, and reviews with reference relationships.",
+      "Security middleware: rate limiting, data sanitization, Helmet headers, and encrypted JWT cookies."
     ],
     keyChallenges: [
-      "Integrating interactive Mapbox coordinates inside server-rendered Pug views while maintaining fluid layout scaling.",
-      "Bridging cookies-based token state systems with client-side Stripe checkout requests securely."
+      "Embedding interactive Mapbox maps inside server-rendered Pug views while keeping layouts responsive.",
+      "Handling JWT auth via cookies while securely integrating client-side Stripe checkout."
     ],
     language: "JavaScript",
     html_url: "https://github.com/omar23142/natours",
     tags: ["Full-Stack", "Node.js", "Express", "MongoDB", "Pug Templates", "JWT Auth", "Stripe Payments"],
   },
   {
-    title: "Weather Forecasting Hub",
+    title: "Weather Dashboard",
     name: "weather-site",
     category: "web",
-    categoryLabel: "Full-Stack & Web",
-    description: "An elegant, interactive utility mapping weather fluctuations globally by pulling real-time meteorological metrics.",
-    longDescription: "A beautiful front-end client fetching atmospheric parameters from public API feeds. Implements dynamic weather layout switches (e.g. rain, snow, sunny) and clean information widgets to present structured climate metrics.",
+    categoryLabel: "Frontend(Reactjs)",
+    description: "A React weather app with Redux state management, i18n support, and live data from a weather API. Deployed on Vercel.",
+    longDescription: "A React 19 weather dashboard that fetches live weather data via axios and displays forecasts, UV index, humidity, and barometric pressure. Uses Redux Toolkit for state management, i18next for multi-language support, and dayjs/moment for date formatting. Deployed live on Vercel.",
     architecture: [
-      "Asynchronous Fetch API patterns backed by error-handling interfaces.",
-      "Modular CSS Flexbox grid adapting cleanly to all screen sizes.",
-      "Interactive DOM state management generating instant metric conversions."
+      "React 19 with functional components and hooks for UI rendering.",
+      "Redux Toolkit for centralized state management across weather data and user preferences.",
+      "axios-based API layer with error handling and rate-limit awareness."
     ],
     keyChallenges: [
-      "Optimizing network call sequences and adding rate-protection thresholds to prevent service blocks.",
-      "Structuring accessible dashboard widgets to highlight complex UV indexes and barometric rates."
+      "Managing API rate limits gracefully while still providing real-time weather updates.",
+      "Building a responsive dashboard that works across mobile and desktop without sacrificing data density."
     ],
     language: "JavaScript",
     html_url: "https://github.com/omar23142/weather-site",
-    tags: ["JavaScript", "APIs", "Fetch API", "Grid & Flexbox", "Productivity Tool"],
+    live_url: "https://weather-site-rho-seven.vercel.app/",
+    tags: ["React", "Redux Toolkit", "axios", "i18next", "JavaScript", "Vercel"],
   },
   {
     title: "Interactive ToDo Planner",
     name: "ToDoList",
     category: "web",
-    categoryLabel: "Full-Stack & Web",
-    description: "A productivity system featuring task categorization, custom filters, and LocalStorage data syncs.",
-    longDescription: "Designed to optimize day-to-day productivity. Features color-coded status columns, seamless task toggling, and clean visual structures that sync instantly with browser cache databases.",
+    categoryLabel: "Frontend(Reactjs)",
+    description: "A React task management app with status columns, search filters, and LocalStorage persistence. Deployed on Vercel.",
+    longDescription: "A React 19 todo app for organizing daily tasks. Features color-coded status columns (todo, in progress, done), task search and filtering, and LocalStorage sync so nothing is lost on refresh. Built with Emotion for styled components. Deployed live on Vercel.",
     architecture: [
-      "Vanilla DOM bindings managing direct event bubbles and updates.",
-      "Local Cache synchronization preventing user data loss on browser refresh.",
-      "Dynamic search filters matching task titles and category groups."
+      "React 19 component tree with state lifted to parent components for shared data flow.",
+      "LocalStorage persistence layer that saves and restores the full task list on page load.",
+      "Search and filter logic that matches tasks by title and category in real time."
     ],
     keyChallenges: [
-      "Building a custom drag-and-drop or ordering sequence from scratch without reliance on third-party libraries.",
-      "Polishing responsive CSS modules to guarantee fully visible content grids on extra-small mobile interfaces."
+      "Implementing drag-and-drop reordering of tasks between status columns without external libraries.",
+      "Keeping the UI responsive on small screens while displaying multiple task columns."
     ],
     language: "JavaScript",
     html_url: "https://github.com/omar23142/ToDoList",
-    tags: ["Vanilla JS", "DOM Events", "LocalStorage", "CSS3 Transitions", "Task Management"],
+    live_url: "https://to-do-list-one-kappa-19.vercel.app/",
+    tags: ["React", "Emotion", "LocalStorage", "CSS3 Transitions", "Task Management"],
   },
   {
     title: "A* Algorithm 8-Puzzle Solver",
     name: "8puzzle",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "A highly analytical Java solver for the classic 8-puzzle game using the A* Search algorithm.",
-    longDescription: "An advanced algorithmic problem-solver designed within Princeton University's computer science paradigms. It finds the absolute shortest sequence of moves to solve a slider board puzzle using priority queues and Manhattan distance calculations.",
+    description: "A Java solver for the 8-puzzle using A* search with Manhattan and Hamming heuristics.",
+    longDescription: "Solves the 8-puzzle sliding tile game by finding the shortest sequence of moves using the A* search algorithm. Uses a priority queue (min-heap) to explore states and Manhattan/Hamming distance as heuristics. Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Custom Priority Queue utilizing minimum heap keys for path evaluation.",
-      "Manhattan and Hamming distance heuristic systems calculating distance parameters.",
-      "Strict node backtracking representing the sequence of puzzle configurations."
+      "Min-heap priority queue prioritizing the most promising puzzle states.",
+      "Manhattan and Hamming distance heuristics to guide the search toward the goal.",
+      "Board state tracking with node back-linking to reconstruct the solution path."
     ],
     keyChallenges: [
-      "Optimizing memory structures to prevent Out-Of-Memory exceptions during large state space expansions.",
-      "Implementing efficient cache structures to filter out duplicate board arrangements."
+      "Preventing out-of-memory errors when the search space grows large by pruning duplicate board states.",
+      "Ensuring the solver always returns the optimal (shortest) solution path."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/8puzzle",
@@ -204,16 +202,16 @@ const projectsData: Project[] = [
     name: "seam",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "A content-aware image scaling system implementing seam carving algorithms based on energy matrices.",
-    longDescription: "An image processing engine. It decreases width or height without distorting important details by identifying and deleting 'seams' (low-energy pixel paths) using shortest-path graph calculations and dynamic programming.",
+    description: "Content-aware image resizing using seam carving with dual-gradient energy calculation and dynamic programming.",
+    longDescription: "Resizes images by removing low-energy seams (paths of pixels) instead of cropping or scaling. Uses dual-gradient energy calculation to find the least important pixels, then dynamic programming to find the optimal seam path. Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Energy calculating engine using dual-gradient energy algorithms.",
-      "Dynamic programming arrays mapping structural seam paths through the image.",
-      "Coordinate mapping buffers reconstructing the pixel matrix instantly."
+      "Dual-gradient energy function that identifies low-importance pixel regions.",
+      "Dynamic programming DP table for finding the optimal vertical and horizontal seam paths.",
+      "Pixel coordinate buffers that reconstruct the image after seam removals."
     ],
     keyChallenges: [
-      "Formulating linear-time dynamic algorithms to compute optimal horizontal and vertical pathways through complex matrices.",
-      "Optimizing pixel removal operations to operate efficiently on high-definition images."
+      "Computing optimal seams in linear time using DP to handle large images efficiently.",
+      "Removing seams cleanly without visible artifacts or distortion in the output image."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/seam",
@@ -224,16 +222,16 @@ const projectsData: Project[] = [
     name: "wordnet",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "A semantic lexicon graph modeling hierarchical structures and computing shortest ancestral paths.",
-    longDescription: "Builds a semantic database mapping nouns, synonyms, and relations. It structures a directed acyclic graph (DAG) to measure vocabulary distance and compute ancestral connections efficiently.",
+    description: "A semantic network of nouns built as a DAG, computing shortest ancestral paths using BFS.",
+    longDescription: "Models the WordNet lexical database as a directed acyclic graph where nouns are nodes and hypernym (is-a) relationships are edges. Computes shortest ancestral paths between words using BFS and finds lowest common ancestors. Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Directed Acyclic Graph (DAG) structures handling thousands of lexicographical links.",
-      "Shortest Ancestral Path (SAP) algorithms resolving queries over dense graphs.",
-      "Breadth-First Search (BFS) optimization modules returning quick semantic matches."
+      "Directed Acyclic Graph (DAG) built from WordNet noun and hypernym relationships.",
+      "Shortest Ancestral Path (SAP) algorithm using BFS to find distances between word nodes.",
+      "Cycle detection during graph construction to ensure the DAG property is maintained."
     ],
     keyChallenges: [
-      "Devising a fast, memory-friendly BFS implementation capable of running millions of ancestral inquiries without leaking heap spaces.",
-      "Establishing strict cycle-detection checks during parsing to guarantee DAG validity."
+      "Running BFS efficiently across a large graph with thousands of nodes and edges.",
+      "Detecting and handling cycles in the input data to maintain a valid DAG structure."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/wordnet",
@@ -244,16 +242,16 @@ const projectsData: Project[] = [
     name: "kdtree",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "A 2D spatial search tree optimizing orthogonal range inquiries and nearest-neighbor lookups.",
-    longDescription: "A computational geometry solver that structures a 2D-Tree to store 2D coordinates. It replaces traditional brute-force linear checks with recursive spatial pruning, optimizing range queries and nearest-neighbor search.",
+    description: "A 2D spatial search tree for range queries and nearest-neighbor lookups using recursive space partitioning.",
+    longDescription: "A 2D-tree (k-d tree) implementation that stores 2D points and supports orthogonal range queries and nearest-neighbor search. The tree partitions space recursively along alternating X and Y axes, pruning entire branches that can't contain relevant points. Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Kd-Tree hierarchical node configurations splitting spaces recursively along X and Y axes.",
-      "Rectangle pruning parameters restricting search branches.",
-      "Recursive lookup functions tracking the closest distance thresholds."
+      "Kd-Tree that alternates splitting along X and Y axes at each level.",
+      "Rectangle-based pruning that skips irrelevant branches during range and neighbor queries.",
+      "Recursive nearest-neighbor search tracking the closest point found so far."
     ],
     keyChallenges: [
-      "Designing recursive pruning conditionals that accurately disregard full branches of the tree, ensuring sub-linear time metrics.",
-      "Managing strict boundary cases where points fall precisely on split lines."
+      "Pruning correctly so entire subtrees are skipped when they can't contain a nearer point.",
+      "Handling edge cases where points lie exactly on the splitting line."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/kdtree",
@@ -264,16 +262,16 @@ const projectsData: Project[] = [
     name: "percolation",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "A mathematical simulator analyzing physical percolation thresholds using disjoint-set structures.",
-    longDescription: "Structures a grid model to analyze threshold behaviors of material percolation. It executes hundreds of Monte Carlo experiments to calculate physical constants using fast Disjoint-Set (Union-Find) algorithms.",
+    description: "A Monte Carlo simulator for percolation thresholds using weighted quick-union with path compression.",
+    longDescription: "Models a grid where each cell can be 'open' or 'blocked' and runs Monte Carlo simulations to estimate the percolation threshold (the point at which water can flow from top to bottom). Uses a weighted quick-union (Union-Find) data structure with path compression. Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Weighted Quick-Union algorithm model with path compression optimizations.",
-      "Monte Carlo engine randomizing open nodes sequentially.",
-      "Statistical math layers calculating standard deviations and confidence boundaries."
+      "Weighted Quick-Union with path compression for nearly constant-time connectivity checks.",
+      "Monte Carlo engine that randomly opens sites and checks for percolation.",
+      "Statistical analysis computing mean, standard deviation, and confidence intervals."
     ],
     keyChallenges: [
-      "Eliminating the 'backwash' phenomenon (where virtual bottom nodes falsely backfill open sites) without decreasing efficiency.",
-      "Ensuring constant-time connectivity calls across large grid systems."
+      "Avoiding the 'backwash' problem where the virtual bottom site falsely indicates percolation through top-connected open sites.",
+      "Ensuring connectivity queries remain fast even on large N-by-N grids."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/percolation",
@@ -284,16 +282,16 @@ const projectsData: Project[] = [
     name: "baseball",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "A network flow solver computing mathematical playoff eliminations using Max-Flow Min-Cut.",
-    longDescription: "Uses network flow theory to resolve complex sports elimination scenarios. It maps teams, schedules, and capacities to a graph, applying the Ford-Fulkerson algorithm to verify if a team is mathematically out of playoff contention.",
+    description: "A max-flow min-cut solver that determines mathematical playoff elimination using Ford-Fulkerson.",
+    longDescription: "Applies network flow theory to determine whether a baseball team is mathematically eliminated from winning its division. Builds a flow network with source, game nodes, team nodes, and sink, then runs Ford-Fulkerson (or Edmonds-Karp) to compute max flow. Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Network flow graph generators mapping source, match, team, and sink nodes.",
-      "Ford-Fulkerson and Edmonds-Karp implementations solving network capacities.",
-      "Min-Cut calculations generating concrete elimination proof certificates."
+      "Flow network model mapping remaining games as edges between team nodes.",
+      "Ford-Fulkerson algorithm (with capacity scaling) for max-flow computation.",
+      "Min-cut analysis to produce a certificate of elimination (the subset of teams that block the team)."
     ],
     keyChallenges: [
-      "Constructing and configuring graph layouts that correctly model all schedule combinations.",
-      "Interpreting min-cut results to isolate the exact subset of teams responsible for the elimination."
+      "Designing the flow network correctly so that game capacities and team win limits are accurately represented.",
+      "Translating the min-cut result into a human-readable elimination explanation."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/baseball",
@@ -304,16 +302,16 @@ const projectsData: Project[] = [
     name: "collinear",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "A computational geometry system identifying lines of collinear points via mergesort and slope calculations.",
-    longDescription: "Solves pattern recognition within sets of 2D coordinates. It locates all line segments containing four or more collinear points using fast sorting structures, reducing typical quartic complexity to quadratic-logarithmic complexity.",
+    description: "A computational geometry algorithm that finds line segments of 4+ collinear points using slope sorting.",
+    longDescription: "Given a set of 2D points, finds all line segments that contain at least 4 collinear points. Uses a merge-sort based approach: for each point, sorts all other points by slope and scans for runs of equal slopes. Reduces complexity from O(N^4) to O(N^2 log N). Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Custom point coordinate structures with specialized slope calculators.",
-      "Slope-comparator modules sorting points recursively using Mergesort.",
-      "Linear segments validation blocks filtering out sub-segments."
+      "Point data structure with slope calculation between any two points.",
+      "Merge-sort based slope sorting for each reference point to group collinear candidates.",
+      "Sub-segment filtering to avoid reporting the same line segment multiple times."
     ],
     keyChallenges: [
-      "Optimizing coordinate checks to prevent duplicates while avoiding high memory footprints.",
-      "Structuring coordinate systems to accurately handle vertical lines with infinite slopes."
+      "Handling vertical lines where slopes are infinite (division by zero).",
+      "Avoiding duplicate line segments when the same line is found from different reference points."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/collinear",
@@ -324,16 +322,16 @@ const projectsData: Project[] = [
     name: "queues",
     category: "dsa",
     categoryLabel: "Algorithms & Structures",
-    description: "Generic collection structures implementing double-ended queues and randomized priority arrays.",
-    longDescription: "Low-level data structure implementations focused on memory speed. Establishes generic Deques (using doubly-linked lists) and Randomized Queues (using resizing arrays) with constant-time operations.",
+    description: "Generic deque (doubly-linked list) and randomized queue (resizing array) with constant-time operations.",
+    longDescription: "Implements two generic data structures: a Deque with constant-time insert/remove at both ends using a doubly-linked list, and a Randomized Queue that returns elements in random order using a resizing array. Supports iteration, independent iterators, and nested iteration. Part of Princeton University's algorithms curriculum.",
     architecture: [
-      "Doubly-Linked List architecture managing dynamic front-and-back additions.",
-      "Resizing Array buffer shuffling indices to return random elements in constant time.",
-      "Generic iteration interfaces compliant with standard loop declarations."
+      "Doubly-linked list for O(1) add/remove at both front and back.",
+      "Resizing array with randomized index selection for the randomized queue.",
+      "Independent iterator implementations supporting nested loops."
     ],
     keyChallenges: [
-      "Constructing randomized iterations that support independent, nested loops without shares in state.",
-      "Maintaining strict constant-time boundaries for Deque actions under heavy memory loads."
+      "Supporting multiple independent iterators over the randomized queue without shared state corruption.",
+      "Maintaining constant-time operations for all Deque methods while keeping memory usage bounded."
     ],
     language: "Java",
     html_url: "https://github.com/omar23142/queues",
@@ -346,140 +344,75 @@ export default function ProjectsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeProject, setActiveProject] = useState<Project | null>(null);
 
-  // Categories definition
   const categories = [
     { id: "all", label: "All Projects", count: projectsData.length },
-    {
-      id: "game",
-      label: "Featured (CS50)",
-      count: projectsData.filter((p) => p.category === "game").length,
-    },
-    {
-      id: "web",
-      label: "Full-Stack & Web",
-      count: projectsData.filter((p) => p.category === "web").length,
-    },
-    {
-      id: "dsa",
-      label: "Algorithms & DS",
-      count: projectsData.filter((p) => p.category === "dsa").length,
-    },
+    { id: "game", label: "Featured (CS50)", count: projectsData.filter((p) => p.category === "game").length },
+    { id: "web", label: "Full-Stack & Web", count: projectsData.filter((p) => p.category === "web").length },
+    { id: "dsa", label: "Algorithms & DS", count: projectsData.filter((p) => p.category === "dsa").length },
   ];
 
-  // Filter projects based on category and search query
   const filteredProjects = useMemo(() => {
     return projectsData.filter((project) => {
-      const matchesCategory =
-        selectedCategory === "all" || project.category === selectedCategory;
-
+      const matchesCategory = selectedCategory === "all" || project.category === selectedCategory;
       const matchesSearch =
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.language.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.tags.some((tag) =>
-          tag.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
+        project.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
 
-  // Language colors for badges
-  const getLanguageStyles = (lang: string) => {
+  const langBadge = (lang: string) => {
     switch (lang.toLowerCase()) {
-      case "typescript":
-        return {
-          bg: "bg-blue-50 text-blue-700 border-blue-200",
-          icon: <SiTypescript className="text-blue-500" />,
-        };
-      case "javascript":
-        return {
-          bg: "bg-yellow-50 text-yellow-800 border-yellow-200",
-          icon: <SiJavascript className="text-yellow-600" />,
-        };
-      case "java":
-        return {
-          bg: "bg-orange-50 text-orange-800 border-orange-200",
-          icon: <FaJava className="text-orange-600" />,
-        };
-      case "html / javascript":
-        return {
-          bg: "bg-red-50 text-red-800 border-red-200",
-          icon: (
-            <div className="flex gap-1 items-center">
-              <SiHtml5 className="text-red-500" />
-              <SiJavascript className="text-yellow-500" />
-            </div>
-          ),
-        };
-      case "python / flask / js":
-        return {
-          bg: "bg-teal-50 text-teal-800 border-teal-200",
-          icon: (
-            <div className="flex gap-1 items-center">
-              <span className="text-[10px] font-bold text-teal-600 mr-0.5">Py</span>
-              <SiJavascript className="text-yellow-500" />
-            </div>
-          ),
-        };
-      default:
-        return {
-          bg: "bg-zinc-50 text-zinc-700 border-zinc-200",
-          icon: <FaCode className="text-zinc-500" />,
-        };
+      case "typescript": return "bg-blue-50 text-blue-700 border-blue-200";
+      case "javascript": return "bg-yellow-50 text-yellow-800 border-yellow-200";
+      case "java": return "bg-orange-50 text-orange-800 border-orange-200";
+      default: return "bg-zinc-50 text-zinc-700 border-zinc-200";
     }
   };
 
   return (
     <div className="relative min-h-screen bg-slate-50 text-zinc-900 pb-20">
-      {/* Decorative Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_center,white,transparent_80%)] pointer-events-none" />
-
-      {/* Top Banner Gradient */}
-      <div className="absolute top-0 left-0 right-0 h-96 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.08)_0%,transparent_70%)] pointer-events-none" />
-
-      <main className="relative max-w-7xl mx-auto px-6 pt-16 z-10">
-        {/* Page Header */}
+      <main className="relative max-w-7xl mx-auto px-6 pt-16">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
-            initial={{ opacity: 0, y: -20, filter: "blur(4px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full border border-blue-100 text-xs font-semibold uppercase tracking-wider mb-4"
+            className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full border border-blue-100 text-xs font-semibold uppercase mb-4"
           >
             <FaCode className="text-xs" /> Portfolio Showcase
           </motion.div>
           <motion.h1
-            initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-700 via-indigo-700 to-indigo-900 bg-clip-text text-transparent"
+            className="text-4xl sm:text-5xl font-extrabold tracking-tight text-blue-700"
           >
             My Projects
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-4 text-base sm:text-lg text-zinc-600 leading-relaxed"
           >
             A curated showcase of full-stack web applications, interactive software,
-            and high-performance data structures & algorithms implementations.
+            and high-performance data structures &amp; algorithms implementations.
           </motion.p>
         </div>
 
-        {/* Filters and Search Bar Container */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white border border-slate-200 p-4 rounded-2xl shadow-sm mb-10">
-          {/* Category tabs */}
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white border border-slate-200 p-4 rounded-2xl mb-10">
           <div className="flex flex-wrap gap-2 w-full md:w-auto">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id as any)}
-                className={`relative px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                className={`relative px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-200 ${
                   selectedCategory === cat.id
                     ? "bg-blue-600 text-white shadow-md shadow-blue-200"
                     : "text-zinc-600 hover:text-zinc-900 hover:bg-slate-50"
@@ -504,7 +437,6 @@ export default function ProjectsPage() {
             ))}
           </div>
 
-          {/* Search bar */}
           <div className="relative w-full md:w-80">
             <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-sm" />
             <input
@@ -512,7 +444,7 @@ export default function ProjectsPage() {
               placeholder="Search by name, tag, tech..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 text-zinc-800"
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-zinc-800"
             />
             {searchQuery && (
               <button
@@ -525,7 +457,6 @@ export default function ProjectsPage() {
           </div>
         </div>
 
-        {/* Project Grid */}
         <motion.div
           layout
           initial={{ opacity: 0, y: 30 }}
@@ -536,10 +467,6 @@ export default function ProjectsPage() {
         >
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => {
-              const langStyle = getLanguageStyles(project.language);
-              const isBullsAndCows =
-                project.name.toLowerCase().includes("bulls-and-cows");
-
               return (
                 <motion.div
                   layout
@@ -550,47 +477,29 @@ export default function ProjectsPage() {
                   key={project.name}
                   whileHover={{ y: -4, boxShadow: "0 10px 40px rgba(0,0,0,0.08)" }}
                   onClick={() => setActiveProject(project)}
-                  className={`group relative flex flex-col justify-between bg-white border rounded-2xl p-6 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden ${
-                    isBullsAndCows
-                      ? "border-amber-200 shadow-md shadow-amber-50"
-                      : "border-slate-200 shadow-sm"
-                  }`}
+                  className="group relative flex flex-col justify-between bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
                 >
-                  {/* Glowing Capstone Spotlight */}
-                  {isBullsAndCows && (
-                    <div className="absolute top-0 right-0 bg-gradient-to-bl from-amber-400 to-orange-500 text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-bl-xl tracking-wider shadow-sm flex items-center gap-1">
-                      <FaFire className="text-[10px] animate-pulse" /> Capstone
-                    </div>
-                  )}
-
                   <div>
-                    {/* Header: Category & Language */}
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                         {project.categoryLabel}
                       </span>
-                      <div
-                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-semibold ${langStyle.bg}`}
-                      >
-                        {langStyle.icon}
+                      <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-semibold ${langBadge(project.language)}`}>
+                        <FaCode />
                         <span>{project.language}</span>
                       </div>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-lg font-bold text-zinc-800 group-hover:text-blue-600 transition-colors duration-200">
+                    <h3 className="text-lg font-bold text-zinc-800 group-hover:text-blue-600 transition-colors">
                       {project.title}
                     </h3>
 
-                    {/* Description */}
                     <p className="mt-2 text-xs text-zinc-500 leading-relaxed line-clamp-3">
                       {project.description}
                     </p>
                   </div>
 
-                  {/* Footer: Tags & Detail CTA */}
                   <div className="mt-6">
-                    {/* Tags */}
                     <div className="flex flex-wrap gap-1 mb-4">
                       {project.tags.slice(0, 3).map((tag) => (
                         <span
@@ -607,14 +516,10 @@ export default function ProjectsPage() {
                       )}
                     </div>
 
-                    {/* Action button */}
                     <div className="flex items-center justify-between pt-4 border-t border-slate-100 text-xs font-semibold text-blue-600 group-hover:text-blue-700 transition-colors">
-                      <span className="flex items-center gap-1 group-hover:gap-2 transition-all">
-                        Behind The Code <FaArrowRight size={10} />
+                      <span className="flex items-center gap-1">
+                        Behind The Code <FaExternalLinkAlt size={10} />
                       </span>
-                      <div className="p-2 bg-slate-50 group-hover:bg-blue-50 rounded-xl transition-colors">
-                        <FaExternalLinkAlt className="text-zinc-400 group-hover:text-blue-600 transition-colors text-[10px]" />
-                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -623,12 +528,11 @@ export default function ProjectsPage() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Empty Search Result */}
         {filteredProjects.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-20 bg-white border border-slate-200 rounded-3xl shadow-sm"
+            className="text-center py-20 bg-white border border-slate-200 rounded-3xl"
           >
             <div className="max-w-md mx-auto px-4">
               <FaCode className="mx-auto text-4xl text-zinc-300 mb-4" />
@@ -636,15 +540,12 @@ export default function ProjectsPage() {
                 No matching projects found
               </h3>
               <p className="mt-1 text-xs text-zinc-500">
-                Try searching for alternate keywords like "Java", "TypeScript", or
-                specific tags like "Algorithms" or "CS50".
+                Try searching for alternate keywords like &quot;Java&quot;, &quot;TypeScript&quot;, or
+                specific tags like &quot;Algorithms&quot; or &quot;CS50&quot;.
               </p>
               <button
-                onClick={() => {
-                  setSelectedCategory("all");
-                  setSearchQuery("");
-                }}
-                className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-md shadow-blue-200 transition-colors cursor-pointer"
+                onClick={() => { setSelectedCategory("all"); setSearchQuery(""); }}
+                className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold cursor-pointer transition-colors"
               >
                 Clear all filters
               </button>
@@ -652,20 +553,17 @@ export default function ProjectsPage() {
           </motion.div>
         )}
 
-        {/* Project Detailed Drawer Overlay */}
         <AnimatePresence>
           {activeProject && (
             <div className="fixed inset-0 z-50 flex items-center justify-end">
-              {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.5 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setActiveProject(null)}
-                className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer"
+                className="absolute inset-0 bg-black/60 cursor-pointer"
               />
 
-              {/* Drawer Container */}
               <motion.div
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
@@ -673,16 +571,8 @@ export default function ProjectsPage() {
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
                 className="relative w-full max-w-2xl h-full bg-white shadow-2xl flex flex-col justify-between overflow-hidden z-10"
               >
-                {/* Header Section */}
-                <div className="relative overflow-hidden bg-slate-900 text-white p-6 sm:p-8">
-                  {/* Subtle Grid background */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30" />
-
-                  {/* Gradient Background */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/60 to-indigo-900/40 pointer-events-none" />
-
-                  {/* Top Bar Actions */}
-                  <div className="relative flex justify-between items-center mb-6 z-10">
+                <div className="bg-slate-900 text-white p-6 sm:p-8">
+                  <div className="flex justify-between items-center mb-6">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-blue-300">
                       {activeProject.categoryLabel}
                     </span>
@@ -695,28 +585,17 @@ export default function ProjectsPage() {
                     </button>
                   </div>
 
-                  {/* Project Info */}
-                  <div className="relative z-10">
-                    <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                      {activeProject.title}
-                    </h2>
-                    <div className="flex gap-2 items-center mt-3">
-                      <span className="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full border border-blue-500/30 font-semibold flex items-center gap-1.5">
-                        {getLanguageStyles(activeProject.language).icon}
-                        {activeProject.language}
-                      </span>
-                      {activeProject.featured && (
-                        <span className="text-xs bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full border border-amber-500/30 font-semibold flex items-center gap-1.5">
-                          <FaFire className="text-[10px]" /> Featured Project
-                        </span>
-                      )}
-                    </div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                    {activeProject.title}
+                  </h2>
+                  <div className="flex gap-2 items-center mt-3">
+                    <span className="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full border border-blue-500/30 font-semibold">
+                      {activeProject.language}
+                    </span>
                   </div>
                 </div>
 
-                {/* Content Section */}
                 <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-8">
-                  {/* Project Overview */}
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
                       Project Overview
@@ -726,7 +605,6 @@ export default function ProjectsPage() {
                     </p>
                   </div>
 
-                  {/* Technical Architecture */}
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
                       Technical Architecture
@@ -743,7 +621,6 @@ export default function ProjectsPage() {
                     </ul>
                   </div>
 
-                  {/* Engineering Challenges Solved */}
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
                       Key Engineering Challenges Solved
@@ -752,7 +629,7 @@ export default function ProjectsPage() {
                       {activeProject.keyChallenges.map((item, idx) => (
                         <li key={idx} className="flex gap-3 text-sm text-zinc-600">
                           <span className="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-red-50 text-red-600 font-bold text-[10px]">
-                            ✔
+                            &check;
                           </span>
                           <span className="leading-relaxed">{item}</span>
                         </li>
@@ -760,10 +637,9 @@ export default function ProjectsPage() {
                     </ul>
                   </div>
 
-                  {/* Tags Detail */}
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                      Technologies & Paradigms
+                      Technologies &amp; Paradigms
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
                       {activeProject.tags.map((tag) => (
@@ -778,19 +654,30 @@ export default function ProjectsPage() {
                   </div>
                 </div>
 
-                {/* Footer Section */}
-                <div className="p-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div className="p-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row gap-3 items-center justify-between">
                   <span className="text-[11px] text-zinc-500 font-medium">
                     Review and clone this repository on GitHub.
                   </span>
-                  <a
-                    href={activeProject.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-semibold shadow-md transition-colors cursor-pointer"
-                  >
-                    <FaGithub className="text-sm" /> View on GitHub
-                  </a>
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    {activeProject.live_url && (
+                      <a
+                        href={activeProject.live_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+                      >
+                        View Live
+                      </a>
+                    )}
+                    <a
+                      href={activeProject.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+                    >
+                      <FaGithub className="text-sm" /> View on GitHub
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             </div>
