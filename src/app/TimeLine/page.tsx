@@ -80,7 +80,7 @@ const milestonesData: Milestone[] = [
   {
     year: "2024",
     period: "CCNA & Linux+ Courses",
-    title: "CCNA & Linux+ Certifications",
+    title: "CCNA & Linux+ ",
     subtitle: "Networking & System Administration",
     category: "milestone",
     categoryLabel: "Certification",
