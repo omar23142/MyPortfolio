@@ -50,11 +50,11 @@ export default function Header() {
       <div ref={overlayRef} className="absolute inset-0 z-30 bg-white" />
 
       <nav className="relative z-20 flex justify-center">
-        <div ref={navRef} className="flex items-center justify-between py-3">
-          <MdDeveloperMode className="h-8 w-8 text-blue-600 hover:text-black" />
+        <div ref={navRef} className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 py-3 px-4">
+          <MdDeveloperMode className="h-8 w-8 text-blue-600 hover:text-black shrink-0" />
 
           {links.map((link) => (
-            <Link key={link.label} className="ml-10 hover:text-blue-600" href={link.href}>
+            <Link key={link.label} className="hover:text-blue-600" href={link.href}>
               {link.label}
             </Link>
           ))}

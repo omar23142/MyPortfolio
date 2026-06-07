@@ -194,7 +194,7 @@ export default function OmarAnimation() {
     <main className="min-h-screen overflow-x-hidden overflow-y-visible bg-white text-[#0f0f0f] flex flex-col items-center justify-center relative">
       <h1
         ref={containerRef}
-        className="relative flex items-center justify-center flex-wrap m-0 mt-0 text-5xl font-extrabold leading-none tracking-wider opacity-0"
+        className="relative flex items-center justify-center flex-wrap m-0 mt-0 text-[1.65rem] sm:text-3xl md:text-5xl font-extrabold leading-none tracking-wider opacity-0"
         aria-label={name}
       >
         <span ref={rollingORef} aria-hidden="true" style={rollingOStyle}>
@@ -307,7 +307,7 @@ function Typewriter() {
   }, []);
 
   return (
-    <div className="mt-7 h-8 text-xl text-blue-500 tracking-wider font-medium" style={{ fontFamily: "'Fira Code', 'Courier New', monospace" }}>
+    <div className="mt-4 sm:mt-7 h-8 text-sm sm:text-xl text-blue-500 tracking-wider font-medium" style={{ fontFamily: "'Fira Code', 'Courier New', monospace" }}>
       <span>{text}</span>
       <span
         className="inline-block w-[2px] h-[1.3em] bg-blue-500 ml-[3px] align-text-bottom rounded-sm"

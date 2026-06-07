@@ -21,10 +21,17 @@ export default function VideoSlider() {
         const cards = cardsArg || Array.from(sliderRef.current.querySelectorAll(".card"))
         const count = cards.length;
         const mid = (count - 1) / 2;
+        cards.forEach((card, i) => {
+            const dist = Math.abs(i - mid);
+            card.style.zIndex = String(count - dist);
+        });
         gsap.to(cards, {
             x: (i) => (i - mid) * 22 + "vw",
-            scale: (i) => Math.max(0.6, 1 - Math.abs(i - mid) * 0.12),
-            z: (i) => -Math.abs(i - mid) * 8,
+            scale: (i) => {
+                const dist = Math.abs(i - mid);
+                const base = Math.max(0.6, 1 - dist * 0.12);
+                return dist === 0 ? base * 1.08 : base;
+            },
             duration: 1,
             ease:"power3.out",
             stagger:-0.1,
