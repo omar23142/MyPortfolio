@@ -17,8 +17,13 @@
   }
 
   .video-slider-wrapper .card {
-    width: 70vw;
-    height: 40vh;
+    width: 95vw;
+    height: 50vh;
+  }
+
+  .video-slider-wrapper .video-player {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
   }
 }
 
@@ -32,7 +37,7 @@
   position: absolute;
   top: 0;
   width: 100vw;
-  height: 5%;
+  height: 3%;
 }
 
 .video-slider-wrapper .card {
